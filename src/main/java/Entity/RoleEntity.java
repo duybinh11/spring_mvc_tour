@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Set;
 
 @Setter
@@ -14,10 +16,8 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+@Table(name = "role")
+public class RoleEntity  extends  AbstractEntity<Integer>   {
 
     private String name;
     private String description;
@@ -25,7 +25,5 @@ public class RoleEntity {
     @OneToMany(mappedBy = "role")
     private Set<UserHasRole> hasRoleSet;
 
-    @OneToMany(mappedBy = "role")
-    private Set<RoleHasPermission> hasPermissionSet;
 
 }

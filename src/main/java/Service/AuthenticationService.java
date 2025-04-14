@@ -1,7 +1,10 @@
 package Service;
 
-import DTO.Request.UserRequest;
-import DTO.Response.TokenResponse;
+
+import Dto.Request.UserRequest;
+import Dto.Response.TokenResponse;
+import Entity.UserEntity;
+import Repository.UserRepository;
 import Util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,7 +12,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -22,30 +24,34 @@ public class AuthenticationService {
 
     @Autowired
     private UserDetailService userDetailService;
+    @Autowired
+    private UserRepository userRepository;
 
 
     public TokenResponse login(UserRequest userRequest) {
         try {
 
-            List<SimpleGrantedAuthority> authoritiesUser =  userDetailService.permissions(userRequest.getUsername());
-            System.out.println("Permission : "+ authoritiesUser);
+            List<SimpleGrantedAuthority> authoritiesUser =  userDetailService.permissions(userRequest.getEmail());
+            System.out.println(authoritiesUser);
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            userRequest.getUsername(),
+                            userRequest.getEmail(),
                             userRequest.getPassword(),
                             authoritiesUser
                     )
             );
 
 
-            String token = jwtUtil.generateToken(userRequest.getUsername(), authoritiesUser);
-            String refreshToken = jwtUtil.generateRefreshToken(userRequest.getUsername(), authoritiesUser);
+            String token = jwtUtil.generateToken(userRequest.getEmail(), authoritiesUser);
+            String refreshToken = jwtUtil.generateRefreshToken(userRequest.getEmail(), authoritiesUser);
 
-            return TokenResponse.builder().token(token).refreshToken(refreshToken).build();
+            UserEntity user = userRepository.findByEmail(userRequest.getEmail()).get();
+
+            return TokenResponse.builder().token(token).idUser(user.getId()).refreshToken(refreshToken).build();
 
 
         } catch (BadCredentialsException ex) {
-            throw ex;
+            throw new BadCredentialsException("Invalid password");
         }
     }
 }

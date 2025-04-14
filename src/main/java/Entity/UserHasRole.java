@@ -6,22 +6,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Setter
 @Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserHasRole {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-
+@Table(name = "user_has_role")
+public class UserHasRole extends AbstractEntity<Integer> {
     @ManyToOne
     private RoleEntity role;
 
     @ManyToOne
     private UserEntity user;
-
 }

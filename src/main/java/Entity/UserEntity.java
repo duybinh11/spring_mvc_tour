@@ -19,29 +19,33 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity implements UserDetails {
+@Table(name = "users")
+public class UserEntity extends  AbstractEntity<Long> implements UserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    private String username;
+    private String email;
     private String password;
-
-
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<CartEntity> carts;
 
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<UserHasRole> userHasRoles;
 
+    @OneToOne(mappedBy = "user")
+    private Customer customer;
+
+    @OneToOne(mappedBy = "user")
+    private Hotel hotel;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

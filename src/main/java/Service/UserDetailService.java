@@ -20,21 +20,20 @@ public class UserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<UserEntity> userEntity = userRepository.findByUsername(s);
+        Optional<UserEntity> userEntity = userRepository.findByEmail(s);
         if (!userEntity.isPresent()) {
-            throw new ResourceNotFoundException("Username not found");
+            throw new ResourceNotFoundException("email not found");
         }
         return userEntity.get();
     }
 
 
-
-    public List<SimpleGrantedAuthority> permissions(String username){
-        Optional<List<String>> permissions = userRepository.findUserGetPermisstion(username);
+    public List<SimpleGrantedAuthority> permissions(String email){
+        Optional<List<String>> permissions = userRepository.findUserGetPermisstion(email);
         if (!permissions.isPresent()) {
-            throw new ResourceNotFoundException("Invalid username");
+            throw new ResourceNotFoundException("Invalid email1");
         }
-        return permissions.get().stream().map(p -> new SimpleGrantedAuthority(p)).toList();
+        return permissions.get().stream().map(SimpleGrantedAuthority::new).toList();
     }
 
 }

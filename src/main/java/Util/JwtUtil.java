@@ -19,7 +19,7 @@ public class JwtUtil {
                 .setSubject(username)
                 .claim("roles", authorities.stream().map(GrantedAuthority::getAuthority).toList())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))  // Token có hiệu lực trong 1p
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))  // Token có hiệu lực trong 1p
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }

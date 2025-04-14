@@ -1,6 +1,6 @@
 package Exception1;
 
-import DTO.Response.ErrorResponse;
+import Dto.Response.ErrorResponse;
 import jakarta.persistence.NoResultException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
