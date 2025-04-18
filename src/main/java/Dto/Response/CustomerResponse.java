@@ -1,15 +1,18 @@
 package Dto.Response;
 
 
-import Dto.Request.CustomerRequest;
-import Dto.Request.UserRequest;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerResponse {
     private UserResponse user;
-    private String phone;
     private String username;
+    private String phone;
+    private String img;
 }

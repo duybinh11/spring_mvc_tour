@@ -1,6 +1,5 @@
 package Dto.Request;
 
-import Entity.AddressHotel;
 import lombok.Getter;
 
 @Getter

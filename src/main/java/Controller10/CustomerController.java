@@ -2,15 +2,11 @@ package Controller10;
 
 
 import Dto.Request.CustomerRequest;
+import Dto.Request.CustomerUpdateRequest;
 import Dto.Response.CustomerResponse;
-import Entity.Customer;
-import MapperData.CustomerMapper;
 import Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customer")
@@ -22,5 +18,10 @@ public class CustomerController {
     @PostMapping()
     public CustomerResponse add(@RequestBody CustomerRequest customerRequest) {
         return customerService.add(customerRequest);
+    }
+
+    @PutMapping
+    public CustomerResponse update(@RequestBody CustomerUpdateRequest customerUpdateRequest) {
+        return customerService.updateCustomer(customerUpdateRequest);
     }
 }

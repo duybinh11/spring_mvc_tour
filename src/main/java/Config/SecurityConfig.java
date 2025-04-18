@@ -29,7 +29,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity(prePostEnabled = true,jsr250Enabled = true,securedEnabled = true,proxyTargetClass = true)
 public class SecurityConfig  {
 
-    private String[] WHITE_LIST = {"/login", "/register", "/", "/login1"};
 
     @Autowired
     private UserDetailService userDetailService;
@@ -49,12 +48,10 @@ public class SecurityConfig  {
                         authorizeRequests
                                 .requestMatchers(
                                         new MvcRequestMatcher(introspector, "/customer/**"),
-                                        new MvcRequestMatcher(introspector, "/auth/login"),
-                                        new MvcRequestMatcher(introspector, "/hotel/**"),
-                                        new MvcRequestMatcher(introspector, "/book_hotel/**")
+                                        new MvcRequestMatcher(introspector, "/auth/login")
                                 )
                                 .permitAll()
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/users")).hasAuthority("FULL_ACCESS")
+                                .requestMatchers(new MvcRequestMatcher(introspector, "/admin/**")).hasAuthority("FULL_ACCESS")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

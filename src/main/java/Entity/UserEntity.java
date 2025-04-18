@@ -34,8 +34,6 @@ public class UserEntity extends  AbstractEntity<Long> implements UserDetails {
     @OneToOne(mappedBy = "user")
     private Customer customer;
 
-    @OneToOne(mappedBy = "user")
-    private Hotel hotel;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

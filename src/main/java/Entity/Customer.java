@@ -1,10 +1,7 @@
 package Entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +19,16 @@ import java.util.List;
 public class Customer extends AbstractEntity<Long> {
     private String username;
     private String phone;
+    private String img;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private UserEntity user;
 
     @OneToMany(mappedBy = "customer")
-    private List<BookHotel> bookHotels;
+    private List<Rate> rates;
+
+    @OneToMany(mappedBy = "customer")
+    private List<BookTour> bookTours;
+
 
 }

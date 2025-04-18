@@ -18,8 +18,8 @@ public class UserHasRoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public UserHasRole userHasRoleHotel(UserEntity user) {
-        RoleEntity role = roleRepository.findByName(EnumRole.HOTEL.name());
+    public UserHasRole userHasRoleAdmin(UserEntity user) {
+        RoleEntity role = roleRepository.findByName(EnumRole.ADMIN.name());
         UserHasRole userHasRole = new UserHasRole();
         userHasRole.setUser(user);
         userHasRole.setRole(role);
