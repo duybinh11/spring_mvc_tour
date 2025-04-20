@@ -1,6 +1,7 @@
 package Controller10;
 
 import Dto.Request.UserRequest;
+import Dto.Response.CustomerResponse;
 import Dto.Response.TokenResponse;
 import Service.AuthenticationService;
 import Service.UserService;
@@ -17,5 +18,10 @@ public class AuthController {
     @PostMapping("/login")
     public TokenResponse login(@RequestBody UserRequest userRequest) {
         return  authenticationService.login(userRequest);
+    }
+
+    @PostMapping("/me")
+    public CustomerResponse me() {
+        return  authenticationService.me();
     }
 }

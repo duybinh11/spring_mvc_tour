@@ -1,6 +1,7 @@
-package Entity;
+package Dto.Response;
 
-import jakarta.persistence.*;
+import Entity.Customer;
+import Entity.Tour;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,23 +9,20 @@ import lombok.Setter;
 
 import java.util.Date;
 
-
 @Setter
 @Getter
-@Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "book_tour")
-public class BookTour extends AbstractEntity<Long>{
+@AllArgsConstructor
+public class BookTourResponse {
+    private Long id;
+    private Date createdAt;
+    private Date updatedAt;
+    private String createdBy;
+    private String modifiedBy;
     private String status;
     private int countMember;
     private Date dateStart;
     private int totalMoney;
     private String paymentMethod;
-
-    @ManyToOne
-    private Customer customer;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Tour tour;
+    private TourResponse tour;
 }

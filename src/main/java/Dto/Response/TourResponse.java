@@ -21,4 +21,5 @@ public class TourResponse {
     private AddressResponse address;
     private List<String> imgs;
     private List<ActivityScheduleResponse> activitySchedules;
+    private Double averageRate;
 }

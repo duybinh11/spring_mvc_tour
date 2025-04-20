@@ -1,10 +1,12 @@
 package MapperData;
 
 import Dto.Request.TourRequest;
+import Dto.Request.TourUpdateRequest;
 import Dto.Response.TourResponse;
 import Entity.ImageTour;
 import Entity.Tour;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
         uses = {AddressMapper.class,ActivityScheduleMapper.class})
 public interface TourMapper {
     Tour toTour(TourRequest tourRequest);
+    void tourUpdatetoTour(TourUpdateRequest tourUpdateRequest, @MappingTarget Tour tour);
     TourResponse toTourResponse(Tour tour);
 
     default List<ImageTour> map(List<String> urls) {

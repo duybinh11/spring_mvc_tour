@@ -1,6 +1,7 @@
 package Controller10;
 
 import Dto.Request.TourRequest;
+import Dto.Request.TourUpdateRequest;
 import Dto.Response.TourResponse;
 import Entity.Tour;
 import Service.TourService;
@@ -35,6 +36,22 @@ public class TourController {
     public List<TourResponse> getHotTour() {
         return tourService.getAllTours();
     }
+
+    @GetMapping("/search")
+    public List<TourResponse> search(@RequestParam(required = true,defaultValue = "") String search) {
+        return tourService.search(search);
+    }
+
+    @PutMapping()
+    public TourResponse updateTour(@RequestBody TourUpdateRequest tourUpdateRequest) {
+        return tourService.updateTour(tourUpdateRequest);
+    }
+
+    @DeleteMapping("/{idTour}")
+    public void deleteTour(@PathVariable Long idTour) {
+        tourService.deleteTour(idTour);
+    }
+
 
     @PostMapping(path = "/uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {

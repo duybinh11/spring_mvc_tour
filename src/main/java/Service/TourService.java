@@ -1,18 +1,15 @@
 package Service;
 
 import Dto.Request.TourRequest;
+import Dto.Request.TourUpdateRequest;
 import Dto.Response.TourResponse;
-import Entity.ActivitySchedule;
-import Entity.Address;
-import Entity.ImageTour;
-import Entity.Tour;
+import Entity.*;
+import Exception1.ResourceNotFoundException;
 import MapperData.TourMapper;
-import Repository.ActivityScheduleRepository;
-import Repository.AddressRepository;
-import Repository.ImageTourRepository;
-import Repository.TourRespository;
+import Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,13 +25,65 @@ public class TourService {
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
+    private RateRepository rateRepository;
+    @Autowired
     private ImageTourRepository imageTourRepository;
     @Autowired
     private ActivityScheduleRepository activityScheduleRepository;
 
     public List<TourResponse> getAllTours() {
         List<Tour> tours = tourRespository.findAll();
-        return tours.stream().map(tour -> tourMapper.toTourResponse(tour)).collect(Collectors.toList());
+        return tours.stream().map(tour -> {
+            TourResponse tourResponse = tourMapper.toTourResponse(tour);
+
+            List<Rate> rates = rateRepository.findAllByTour_Id(tour.getId());
+            if (!rates.isEmpty()) {
+                double average = rates.stream()
+                        .mapToDouble(Rate::getRateStar)
+                        .average()
+                        .orElse(0.0);
+                double roundedAverage = Math.round(average * 10.0) / 10.0;
+                tourResponse.setAverageRate(roundedAverage);
+            } else {
+                tourResponse.setAverageRate(0.0);
+            }
+
+            return tourResponse;
+        }).collect(Collectors.toList());
+    }
+
+    public List<TourResponse> search(String search) {
+        List<Tour> tours = tourRespository.findByNameContainingIgnoreCase(search);
+
+
+        return tours.stream().map(tour -> {
+            TourResponse tourResponse = tourMapper.toTourResponse(tour);
+
+            List<Rate> rates = rateRepository.findAllByTour_Id(tour.getId());
+            if (!rates.isEmpty()) {
+                double average = rates.stream()
+                        .mapToDouble(Rate::getRateStar)
+                        .average()
+                        .orElse(0.0);
+                double roundedAverage = Math.round(average * 10.0) / 10.0;
+                tourResponse.setAverageRate(roundedAverage);
+            } else {
+                tourResponse.setAverageRate(0.0);
+            }
+
+            return tourResponse;
+        }).collect(Collectors.toList());
+    }
+
+    public TourResponse updateTour(TourUpdateRequest tourUpdateRequest) {
+        Tour tour =  tourRespository.findById(tourUpdateRequest.getId()).orElseThrow(() -> new ResourceNotFoundException("Tour not found"));
+        tourMapper.tourUpdatetoTour(tourUpdateRequest, tour);
+        return tourMapper.toTourResponse(tourRespository.save(tour));
+    }
+
+    public void deleteTour(Long idTour) {
+        Tour tour =  tourRespository.findById(idTour).orElseThrow(()-> new ResourceNotFoundException("Tour not found"));
+        tourRespository.delete(tour);
     }
 
 

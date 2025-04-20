@@ -49,11 +49,6 @@ public class CustomerService {
             customer.setImg(request.getImg());
         }
 
-        if (request.getEmail() != null) {
-            UserEntity user = customer.getUser();
-            user.setEmail(request.getEmail());
-            userRepository.save(user);
-        }
 
         return customerMapper.toCustomerResponse(customerRepository.save(customer));
     }

@@ -21,20 +21,19 @@ public class Tour extends AbstractEntity<Long>{
     private String type;
 
 
-    @OneToOne(mappedBy = "tour")
+    @OneToOne(mappedBy = "tour",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private Address address;
 
-    @OneToMany(mappedBy = "tour",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "tour",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<ImageTour> imgs;
 
-    @OneToMany(mappedBy = "tour",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "tour",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<ActivitySchedule> activitySchedules;
 
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<Rate> rates;
 
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<BookTour> bookTours;
-
 
 }

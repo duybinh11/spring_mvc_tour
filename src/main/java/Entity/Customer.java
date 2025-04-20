@@ -21,7 +21,7 @@ public class Customer extends AbstractEntity<Long> {
     private String phone;
     private String img;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private UserEntity user;
 
     @OneToMany(mappedBy = "customer")

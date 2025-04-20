@@ -1,8 +1,10 @@
 package Config;
 
 
+import Repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
@@ -12,4 +14,6 @@ public class AppConfig {
     public StandardServletMultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
     }
+
+    
 }

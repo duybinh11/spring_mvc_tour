@@ -13,5 +13,4 @@ public class TourRequest {
     private AddressRequest address;
     private List<ActivityScheduleRequest> activitySchedules;
     private List<String> imgs;
-
 }
